@@ -114,7 +114,7 @@ def main():
         weight_dict.update(aux_weight_dict)
     criterion = SetCriterion(model.num_classes, matcher, weight_dict, cfg.MODEL.EXTRA.EOS_COEF, [
         'labels', 'kpts', 'cardinality']).cuda()
-
+    print(cfg.GPUS)
     model = torch.nn.DataParallel(model, device_ids=cfg.GPUS).cuda()
 
     # Data loading code

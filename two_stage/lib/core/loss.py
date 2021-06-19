@@ -219,8 +219,8 @@ class SetCriterion(nn.Module):
         outputs_without_aux = {k: v for k, v in outputs.items() if k != 'aux_outputs'}
 
         # Retrieve the matching between the outputs of the last layer and the targets
-        indices = self.matcher(outputs_without_aux, targets)
-
+        # indices = self.matcher(outputs_without_aux, targets)
+        indices = [(torch.arange(17), torch.arange(17)) for _ in range(targets.shape[0])]
         idx = self._get_tgt_permutation_idx(indices)
         src_kpts = outputs['pred_coords'][idx].view(-1, self.num_classes, 2)
         pred = src_kpts * target_weights
@@ -236,7 +236,8 @@ class SetCriterion(nn.Module):
         # In case of auxiliary losses, we repeat this process with the output of each intermediate layer.
         if 'aux_outputs' in outputs:
             for i, aux_outputs in enumerate(outputs['aux_outputs']):
-                indices = self.matcher(aux_outputs, targets)
+                # indices = self.matcher(aux_outputs, targets)
+                indices = [(torch.arange(17), torch.arange(17)) for _ in range(targets.shape[0])]
                 for loss in self.losses:
                     kwargs = {}
                     if loss == 'labels':
