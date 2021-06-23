@@ -47,10 +47,10 @@ class PoseTransformer(nn.Module):
 
         self.aux_loss = extra.AUX_LOSS
 
-    def forward(self, x):
+    def forward(self, x, if_test=False):
         src, pos = self.backbone(x)
         hs = self.transformer(self.input_proj(src[-1]), None,
-                              self.query_embed.weight, pos[-1])[0]
+                              self.query_embed.weight, pos[-1], if_test)[0]
 
         outputs_class = self.class_embed(hs)
         outputs_coord = self.kpt_embed(hs).sigmoid()

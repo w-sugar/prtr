@@ -149,7 +149,7 @@ def validate(config, val_loader, val_dataset, model, criterion, output_dir,
         for i, (input, target, target_weight, meta) in enumerate(val_loader):
             num_images = input.size(0)
             # compute output
-            outputs = model(input)
+            outputs = model(input, True)
             target = target.cuda(non_blocking=True)
             target_weight = target_weight.cuda(non_blocking=True)
 
